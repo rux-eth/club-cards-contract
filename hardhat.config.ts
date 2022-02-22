@@ -33,9 +33,13 @@ const config = {
   },
   networks: {
     hardhat: {},
+    kovan: {
+      url: `https://eth-kovan.alchemyapi.io/v2/ZFAVZvZ_Ce3LRPbJx7STIAP111xHbquk`,
+      accounts: [process.env.PRIVATE_KEY_DEV],
+    },
     rinkeby: {
-      url: `https://rinkeby.infura.io/v3/${process.env.INFURA_KEY}`,
-      accounts: [process.env.PRIVATE_KEY_ADMIN],
+      url: `https://eth-rinkeby.alchemyapi.io/v2/ZFAVZvZ_Ce3LRPbJx7STIAP111xHbquk`,
+      accounts: [process.env.PRIVATE_KEY_DEV],
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,

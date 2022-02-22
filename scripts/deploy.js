@@ -15,7 +15,17 @@ async function main() {
 
   // We get the contract to deploy
   console.log("Deploying");
+  const Con = await hre.ethers.getContractFactory("CCAuthTx");
+  console.log("Got Factory");
+  const con = await Con.deploy();
+
+  await con.deployed();
+
+  console.log("CCAuthTx deployed to:", con.address);
+/* 
+  console.log("Deploying");
   const Greeter = await hre.ethers.getContractFactory("ClubCards");
+  console.log("Got Factory");
   const greeter = await Greeter.deploy(
     "0x4f65cDFfE6c48ad287f005AD14E78ff6433c8d67"
   );
@@ -23,6 +33,7 @@ async function main() {
   await greeter.deployed();
 
   console.log("ClubCards deployed to:", greeter.address);
+   */
 }
 
 // We recommend this pattern to be able to use async/await everywhere

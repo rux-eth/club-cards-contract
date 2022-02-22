@@ -9,25 +9,22 @@ import { arrayify } from "ethers/lib/utils";
 import { createHash, randomInt, Sign } from "crypto";
 import { ethers } from "hardhat";
 
-/*
- * to any dev unfortunate to see this mess of a test script, im sorry.
- * this was my first test script ever and it was written back when i had
- * much less experience as a dev.
- */
-
 let waveSupplies: number = 500;
-let whitelist: boolean = true;
+let whitelist: boolean = false;
 describe("ClubCards", () => {
   const provider = new MockProvider();
   const [admin] = provider.getWallets();
   let cc: Contract;
-  let si: Contract;
+  let ccat: Contract;
   let waves: Array<Promise<Object>> = [];
   let waveData: Array<any> = [];
   beforeEach(async () => {
     const ClubCards = await hre.ethers.getContractFactory("ClubCards");
     cc = await ClubCards.deploy("0x4f65cDFfE6c48ad287f005AD14E78ff6433c8d67");
+    const CCAuthTx = await hre.ethers.getContractFactory("CCAuthTx");
+    ccat = await CCAuthTx.deploy(cc.address);
     await cc.setAdmin(admin.address);
+    await cc.setAllStatus(true);
     const waveNums: number = 6;
     for (let i = 3; i < waveNums + 3; i++) {
       let wave: any = constructWave(
@@ -54,6 +51,19 @@ describe("ClubCards", () => {
       );
     }
   });
+  it("Test Call", async () => {
+    const numMints = 10;
+    let [admin, testWallet] = await hre.ethers.getSigners();
+    let parsed = waveToJSON(await cc.getWave(3));
+    let ccad = ccat.connect(admin);
+    let ccte = ccat.connect(testWallet);
+    console.log(`CCAuth Addy: ${ccat.address}`);
+    console.log(`CC Addy: ${cc.address}`);
+
+    await ccad.test(numMints, 3, getOverrides(numMints, parsed.price));
+    await ccte.test(numMints, 3, getOverrides(numMints, parsed.price));
+  });
+  /* 
   it("Stress Test", async () => {
     const start = Date.now();
     let counter: number = 0;
@@ -330,7 +340,7 @@ describe("ClubCards", () => {
           }
         }
       }
-    } */
+    }
     for (let i = 3; i < waves.length + 3; i++) {
       let wave = await cc.getWave(i);
       let waveParsed = waveToJSON(wave);
@@ -402,6 +412,7 @@ describe("ClubCards", () => {
     let final = end - start;
     console.log(`Total Runtime: ${final}`);
   });
+ */
   // it("Stress Test", async () => {});
 });
 
@@ -411,6 +422,7 @@ const getOverrides = (numMints: number, wavePrice: BigNumber) => {
     value: price,
   };
 };
+
 function createMintSig(
   sender: string,
   numMints: number,
