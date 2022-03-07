@@ -2,7 +2,7 @@
 // Author: Club Cards
 // Developed by Max J. Rux
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.7;
 
 interface ICCEditions {
     event Claimed(

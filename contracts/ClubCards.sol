@@ -3,7 +3,7 @@
 // Developed by Max J. Rux
 // Dev Twitter: @Rux_eth
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.7;
 
 // openzeppelin imports
 import "@openzeppelin/contracts/utils/Address.sol";
@@ -13,8 +13,6 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 // local imports
 import "../interfaces/IClubCards.sol";
 import "./CCEditions.sol";
-
-import "hardhat/console.sol";
 
 contract ClubCards is ReentrancyGuard, CCEditions, IClubCards {
     using Address for address;
@@ -39,11 +37,7 @@ contract ClubCards is ReentrancyGuard, CCEditions, IClubCards {
         override
         nonReentrant
     {
-        console.log("Deploying");
-
         prepMint(false, numMints, waveId);
-        address sender = _msgSender();
-        console.log("Sender: ", sender);
         uint256 ti = totalSupply();
         if (numMints == 1) {
             _mint(_msgSender(), ti, 1, abi.encodePacked(waveId.toString()));

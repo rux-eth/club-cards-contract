@@ -17,12 +17,12 @@ async function main() {
   console.log("Deploying");
   const Con = await hre.ethers.getContractFactory("CCAuthTx");
   console.log("Got Factory");
-  const con = await Con.deploy();
+  const con = await Con.deploy("0xE2fF341C806b5107cFcE2ddC41ec5119855B2deC");
 
   await con.deployed();
 
-  console.log("CCAuthTx deployed to:", con.address);
-/* 
+  console.log("ClubCards deployed to:", con.address);
+  /* 
   console.log("Deploying");
   const Greeter = await hre.ethers.getContractFactory("ClubCards");
   console.log("Got Factory");

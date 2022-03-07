@@ -1,13 +1,13 @@
+import "@nomiclabs/hardhat-etherscan";
+import "@nomiclabs/hardhat-ganache";
+import "@nomiclabs/hardhat-waffle";
+import "@nomiclabs/hardhat-web3";
 import * as dotenv from "dotenv";
+import "hardhat-gas-reporter";
+import "hardhat-watcher";
 dotenv.config();
 
-import "@nomiclabs/hardhat-waffle";
-import "@nomiclabs/hardhat-ganache";
-import "hardhat-watcher";
-import "hardhat-gas-reporter";
-import "@nomiclabs/hardhat-web3";
-import "@nomiclabs/hardhat-etherscan";
-
+const accts: string[] = [<string>process.env.PRIVATE_KEY_DEV, ...(<string>process.env.TEST_KEYS).split(',')]
 const config = {
   Runs: 5,
   solidity: {
@@ -34,12 +34,12 @@ const config = {
   networks: {
     hardhat: {},
     kovan: {
-      url: `https://eth-kovan.alchemyapi.io/v2/ZFAVZvZ_Ce3LRPbJx7STIAP111xHbquk`,
-      accounts: [process.env.PRIVATE_KEY_DEV],
+      url: `https://eth-kovan.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
+      accounts: accts,
     },
     rinkeby: {
-      url: `https://eth-rinkeby.alchemyapi.io/v2/ZFAVZvZ_Ce3LRPbJx7STIAP111xHbquk`,
-      accounts: [process.env.PRIVATE_KEY_DEV],
+      url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
+      accounts: accts,
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
@@ -57,7 +57,7 @@ const config = {
         { command: "compile", params: { quiet: true } },
         {
           command: "test",
-          params: { noCompile: true, testFiles: ["test/testfile.js"] },
+          params: { noCompile: true, testFiles: ["test/testfile.ts"] },
         },
       ],
     },

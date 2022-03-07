@@ -3,7 +3,7 @@
 // Developed by Max J. Rux
 // Dev Twitter: @Rux_eth
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.7;
 
 // openzeppelin imports
 import "./Ownable.sol";
